@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Form</h1>
+
+    <div>
+        <div>
+            <label for="frmName">Name</label>
+            <input type="text" name="name" id="frmName" value="" placeholder="Enter your name">
+            <span id="msgName" style="color:red"></span>
+        </div>
+        <br />
+        <div>
+            <label for="frmAge">Age</label>
+            <input type="number" name="age" id="frmAge" value="" placeholder="Enter your age">
+            <span id="msgAge" style="color:red"></span>
+        </div>
+
+        <table id="tblNames">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Average Age
+                    </td>
+                    <td id="tdAverageAge">
+                        0
+                    </td>
+                </tr>
+                <tr>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <button onclick="addPerson()" id="submitButton">Submit</button>
+
+        <script>
+
+            function writeMessageForControl(control, message) {
+                let nameOfControl = control.name;
+                let nameInPascal = nameOfControl.substr(0, 1).toUpperCase()
+                    + nameOfControl.substr(1, nameOfControl.length);
+                let msgNameControl = "msg" + nameInPascal;
+                let msgControl = document.getElementById(msgNameControl);
+                if (msgControl == null) {
+                    console.error("No existe el control (span): " + msgNameControl);
+                }
+                msgControl.innerHTML = message;
+            }
+
+
+            function correctData(name, age) {
+                isCorrect = true;
+                writeMessageForControl(age, "");
+                writeMessageForControl(name, "");
+                if (age.value > 100) {
+                    writeMessageForControl(age, "Are you alive? You're too old!");
+                    isCorrect = false;
+                }
+
+                if (age.value < 0) {
+                    writeMessageForControl(age, "Come on! are you traveling to the past?");
+                    isCorrect = false;
+                }
+
+                if (age.value == "") {
+                    writeMessageForControl(age, "You need to insert the age");
+                    isCorrect = false;
+                }
+
+                if (name.value.length == 0) {
+                    writeMessageForControl(name, "You need to insert the name");
+                    isCorrect = false
+                }
+
+                if (name.value.length > 50) {
+                    writeMessageForControl(name, "Wow, you have a very long name!");
+                    isCorrect = false
+                }
+                //document.getElementById("submitButton").disabled = !isCorrect;
+
+                return isCorrect;
+            }
+
+            function addPerson() {
+                let frmName = document.getElementById("frmName");
+                let frmAge = document.getElementById("frmAge");
+                if (correctData(frmName, frmAge)) {
+                    addRowToTable();
+                    calculateAverageAge(frmAge.value);
+                    frmName.value = "";
+                    frmAge.value = "";
+                    console.log("All the information is correct");
+                }
+              }
+
+            function addRowToTable()
+            {
+                let tblNames = document.getElementById("tblNames");
+                let rowNameAge = tblNames.insertRow(-1);
+                let cellName = rowNameAge.insertCell(0);
+                let cellAge = rowNameAge.insertCell(1);
+                let newName = document.createTextNode(frmName.value);
+                let newAge = document.createTextNode(frmAge.value);
+                cellName.appendChild(newName);
+                cellAge.appendChild(newAge);
+            }
+
+            function calculateAverageAge(age)
+            {
+                let trAverageAge = document.getElementById("tdAverageAge");
+                let actualAverage = trAverageAge.innerHTML;
+                let quantityOfRows = parseFloat(document.getElementById("tblNames").rows.length-3);
+                let actualAge = parseInt(age);
+                let average = ((parseFloat(actualAverage) * parseFloat(quantityOfRows - 1)) + actualAge) / quantityOfRows;
+                trAverageAge.innerHTML = parseFloat(average);
+           }
+           // addPerson();
+        </script>
+</body>
+
+</html>
