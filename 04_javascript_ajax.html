@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript Objects</title>
+    <style>
+        .blink_me {
+            animation: blinker 2s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+        th, td
+        {
+            border: 1px solid burlywood;
+            padding: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>People dansing with JSON</h1>
+
+    <h3>
+        <div id="box" class="blink_me" style="color: rgb(13, 201, 13)">
+                Select any people to show more information...
+            </div>
+        </h3>
+        
+        <div>
+            <div>
+                <label for="frmName">Name</label>
+                <input type="text" name="name" id="frmName" value="" placeholder="Enter your name">
+                <span id="msgName" style="color:red"></span>
+            </div>
+            <br>
+            <div>
+                <label for="frmDateOfBirth">Date of birth</label>
+                <input type="date" name="dateOfBirth" id="frmDateOfBirth" value="" placeholder="Enter the day of birth">
+                <span id="msgDateOfBirth" style="color:red"></span>
+            </div>
+            <button onclick="addPerson()" id="submitButton">Submit</button>
+        <section>
+            <div>
+        <table id="tblNames" border="1px" style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th>Age</th>
+                    <th>Zodiac Sign</th>
+                    <th colspan="3">Favorite Music</th>
+                    <th>Something interesting</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Average Age
+                    </td>
+                    <td id="tdAverageAge">
+                        0
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>Salsa</td>
+                    <td>Regueton</td>
+                    <td>Rock</td>
+                    <td>Think about it...</td>
+                </tr>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div>JSON</div>
+    <div id="json" style="background:lavender; border:solid; border-color:lightblue ">jSon</div>
+    </section>
+
+        <br>
+
+        <script>
+
+            arrayOfPeople = [];
+
+            function writeMessageForControl(control, message) {
+                let nameOfControl = control.name;
+                let nameInPascal = nameOfControl.substr(0, 1).toUpperCase()
+                    + nameOfControl.substr(1, nameOfControl.length);
+                let msgNameControl = "msg" + nameInPascal;
+                let msgControl = document.getElementById(msgNameControl);
+                if (msgControl == null) {
+                    console.error("No control created (span): " + msgNameControl);
+                }
+                msgControl.innerHTML = message;
+            }
+
+
+            function correctData(name, dateOfBirth) {
+                isCorrect = true;
+                writeMessageForControl(name, "");
+                writeMessageForControl(dateOfBirth, "");
+                console.log(dateOfBirth.value);
+
+                if (dateOfBirth.value == "") {
+                    writeMessageForControl(dateOfBirth, "You need to insert the date of birth");
+                    isCorrect = false;
+                }
+
+                if (name.value.length == 0) {
+                    writeMessageForControl(name, "You need to insert the name");
+                    isCorrect = false
+                }
+
+                if (name.value.length > 50) {
+                    writeMessageForControl(name, "Wow, you have a very long name!");
+                    isCorrect = false
+                }
+
+                return isCorrect;
+            }
+
+            function addPerson() {
+                let frmName = document.getElementById("frmName");
+                let frmDateOfBirth = document.getElementById("frmDateOfBirth");
+                if (correctData(frmName, frmDateOfBirth)) {
+                    let person = new Person(frmName.value, new Date(frmDateOfBirth.value));
+                    addPeopleToTable(person)
+                    arrayOfPeople[arrayOfPeople.length] = person;
+                    calculateAverageAge(person.age());
+                    frmName.value = "";
+                    frmDateOfBirth.value = "";
+                    console.log("All the information is correct");
+                    showJson();
+                }
+            }
+
+            function addRowToTable() {
+                let tblNames = document.getElementById("tblNames");
+                let rowNameAge = tblNames.insertRow(-1);
+                let cellName = rowNameAge.insertCell(0);
+                let cellAge = rowNameAge.insertCell(1);
+                let newName = document.createTextNode(frmName.value);
+                let newAge = document.createTextNode(frmDateOfBirth);
+                cellName.appendChild(newName);
+                cellAge.appendChild(newAge);
+            }
+
+            function calculateAverageAge(age) {
+                let trAverageAge = document.getElementById("tdAverageAge");
+                let actualAverage = trAverageAge.innerHTML;
+                let quantityOfRows = parseFloat(document.getElementById("tblNames").rows.length - 3);
+                let actualAge = parseInt(age);
+                let average = ((parseFloat(actualAverage) * parseFloat(quantityOfRows - 1)) + actualAge) / quantityOfRows;
+                trAverageAge.innerHTML = parseFloat(average);
+            }
+
+            /* Person object */
+            function Person(name, dateOfBirth) {
+                this.name = name;
+                this.dateOfBirth = dateOfBirth;
+                this.age = function () {
+                    // https://stackoverflow.com/questions/4060004/calculate-age-given-the-birth-date-in-the-format-yyyymmdd
+                    let ageDifMs = Date.now() - dateOfBirth.getTime();
+                    let ageDate = new Date(ageDifMs); // miliseconds from epoch
+                    return Math.abs(ageDate.getUTCFullYear() - 1970);
+                };
+                this.zodiacSign = function () {
+                    //https://coursesweb.net/javascript/zodiac-signs_cs
+                    let day = dateOfBirth.getDate();
+                    let month = dateOfBirth.getMonth() + 1;
+                    let zodiac = ['', 'Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn'];
+                    let last_day = ['', 19, 18, 20, 20, 21, 21, 22, 22, 21, 22, 21, 20, 19];
+                    return (day > last_day[month]) ? zodiac[month * 1 + 1] : zodiac[month];
+                }
+            }
+
+
+            function CreateFivePeople() {
+                let person1 = new Person("Andrea", new Date("2015-03-04"));
+                let person2 = new Person("Esthefania", new Date("2000-09-17"));
+                let person3 = new Person("Omar", new Date("1952-05-29"));
+                let person4 = new Person("Freddy", new Date("2008-06-15"));
+                let person5 = new Person("Madeley", new Date("1984-07-27"));
+                arrayOfPeople[0] = person1;
+                arrayOfPeople[1] = person2;
+                arrayOfPeople[2] = person3;
+                arrayOfPeople[3] = person4;
+                arrayOfPeople[4] = person5;
+            }
+
+            function showPeopleAgeInBox(person) {
+                let message = document.getElementById("box");
+                message.style.color = "red";
+                message.innerHTML = person.name + " is " + person.age() + " years old!";
+            }
+
+            function showPeopleZodiacSignInBox(person) {
+                let message = document.getElementById("box");
+                message.style.color = "blue";
+                message.innerHTML = person.name + " is " + person.zodiacSign() + "!";
+                person.age();
+            }
+
+            function showJson(){
+                let jsonObject = JSON.stringify(arrayOfPeople);
+                document.getElementById("json").innerHTML = jsonObject;
+            }
+
+
+            function dancing(person, rithm){
+                let message = document.getElementById("box");
+                message.style.color = "salmon";
+                message.innerHTML = person.name + " is dancing "+rithm+"!";
+                arrayOfPeople.forEach(p => {
+                    if (person == p) {
+                        if (p.dance == undefined){
+                            p.dance = [rithm];
+                        }else{
+                            p.dance[p.dance.length] = [rithm];
+                        }
+                    }
+                });
+                showJson();
+            }
+
+            function addPeopleToTable(person, i) {
+                let tblNames = document.getElementById("tblNames");
+
+                let newRow = tblNames.insertRow(-1);
+
+                let cellName = newRow.insertCell(0);
+                let newName = document.createTextNode(person.name);
+                cellName.appendChild(newName);
+
+                let cellDateOfBirth = newRow.insertCell(1);
+                let newDateOfBirth = document.createTextNode(person.dateOfBirth.toLocaleDateString());
+                cellDateOfBirth.appendChild(newDateOfBirth);
+
+                let cellAge = newRow.insertCell(2);
+                let buttonAge = document.createElement("input");
+                buttonAge.type = "button";
+                buttonAge.value = "Calc Age";
+                buttonAge.onclick = function () {
+                    showPeopleAgeInBox(person);
+                };
+                cellAge.appendChild(buttonAge);
+
+                let cellZodiacSign = newRow.insertCell(3);
+                let buttonZodiacSign = document.createElement("input");
+                buttonZodiacSign.type = "button";
+                buttonZodiacSign.value = "Show Zodiac Sign";
+                buttonZodiacSign.onclick = function () {
+                    showPeopleZodiacSignInBox(person);
+                };
+                cellZodiacSign.appendChild(buttonZodiacSign);
+
+                let cellSalsa = newRow.insertCell(4);
+                let buttonSalsa = document.createElement("input");
+                buttonSalsa.type = "button";
+                buttonSalsa.value = "Sabor!";
+                buttonSalsa.onclick = function () {
+                    dancing(person, "salsa");
+                };
+                cellSalsa.appendChild(buttonSalsa);
+
+                let cellRegueton = newRow.insertCell(5);
+                let buttonRegueton = document.createElement("input");
+                buttonRegueton.type = "button";
+                buttonRegueton.value = "Perreo!";
+                buttonRegueton.onclick = function () {
+                    dancing(person, "Regueton");
+                };
+                cellRegueton.appendChild(buttonRegueton);
+
+                let cellRock = newRow.insertCell(6);
+                let buttonRock = document.createElement("input");
+                buttonRock.type = "button";
+                buttonRock.value = "Mosh!";
+                buttonRock.onclick = function () {
+                    dancing(person, "Rock");
+                };
+                cellRock.appendChild(buttonRock);
+
+                let cellWiki = newRow.insertCell(7);
+                let buttonWiki = document.createElement("input");
+                buttonWiki.type = "button";
+                buttonWiki.value = "WikiHow";
+                buttonWiki.id = "wiki" + i;
+                buttonWiki.onclick = function () {
+                     CallAjaxForPerson(buttonWiki.id)
+                };
+                cellWiki.appendChild(buttonWiki);
+            }
+
+            function ShowPeopleInTable() {
+                for (let i = 0; i < arrayOfPeople.length; i++) {
+                    const person = arrayOfPeople[i];
+                    addPeopleToTable(person, i);
+                    calculateAverageAge(person.age());
+                }
+            }
+
+            function CallAjaxForPerson(id){
+                var data = null;
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.addEventListener("readystatechange", function () {
+                    if (this.readyState === this.DONE) {
+                        let wiki = JSON.parse(this.responseText);
+                        document.getElementById(id).value = wiki["1"];
+                    }
+                });
+                xhr.open("GET", "https://hargrimm-wikihow-v1.p.rapidapi.com/steps?count=1");
+                xhr.setRequestHeader("x-rapidapi-host", "hargrimm-wikihow-v1.p.rapidapi.com");
+                xhr.setRequestHeader("x-rapidapi-key", "fd116adb42mshd7dcfb4e9e863a6p139031jsnb1c4ed851fdd");
+                xhr.send(data);
+            }
+
+            CreateFivePeople();
+            ShowPeopleInTable();
+            showJson();
+            // const person = arrayOfPeople[0];
+            // showPeopleAgeInBox(person);
+            //showPeopleZodiacSignInBox(person);
+            //console.log(arrayOfPeople);
+        </script>
+</body>
+
+</html>
