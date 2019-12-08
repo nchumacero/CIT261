@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript Objects</title>
+    <style>
+        /* * {
+            border: red solid 1px;
+            padding: 10px;
+        } */
+        .blink_me {
+            animation: blinker 3s linear infinite;
+        }
+        @keyframes blinker {
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        th,
+        td {
+            border: 1px solid burlywood;
+            padding: 5px;
+        }
+        input {
+            transition: transform 0.5s;
+        }
+        input:hover,
+        :focus {
+            transform: scale(1.2);
+            /* transform: rotate(5deg); */
+        }
+        .formulary {
+            max-width: 50rem;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        input:placeholder-shown+label {
+            opacity: 0;
+            transform: translateY(1rem);
+        }
+        .has-dynamic-label {
+            position: relative;
+            padding-top: 1.5rem;
+        }
+        .has-dynamic-label label {
+            position: absolute;
+            top: 0;
+            font-size: var(--font-size-small);
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 1.5s ease-out;
+        }
+        /* span {
+            transition: transform 1s;
+        }
+        span:hover {
+            transform: rotate(25deg);
+        } */
+        #rotar{
+            transition: transform 1s;
+            /* transform: rotate(10deg);
+            transition: transform 1s; 
+            transform: rotate(-10deg);  */
+        }
+        #rotar.rotated{
+            /* transition: transform 1s;
+            transform: rotate(10deg);
+            transition: transform 1s;  */
+            transform: rotate(10deg); 
+        }
+        #rotar10{
+            /* transition: transform 1s;
+            transform: rotate(10deg);
+            transition: transform 1s;  */
+            transform: rotate(10deg); 
+        }
+        .rotar0 {
+            transition: transform 1s;
+        }
+        .rotar10 {
+            /* transition: transform 1s;
+            transform: rotate(10deg);
+            transition: transform 1s;  */
+            transition: transform 2s;
+            /* transform: rotate(10deg);  
+            transform: skew(20deg);  */
+            transform: scale(1.1, 1.2); 
+            
+        }
+        span {
+            /* transition: transform 1s;
+            transform: rotate(10deg);
+            transition: transform 1s;  */
+            transform: rotate(10deg); 
+        }
+
+        .flecha {
+            /* background-color: thistle; */
+            color: white;
+            float: left;
+            width: 0px;
+            font-size: 40px;
+            transform: translateX(250px);
+            transform: rotate(180deg);
+        }
+
+        .flecha_fin {
+            color: red;
+            transition-duration: 2s;
+            transition-timing-function: cubic-bezier(0.3, 0.7, 0.6, 0.1);
+            width: 40px;
+            font-size: 40px;
+            transform: translateX(300px);
+            transform: translateY(40px);
+            transform: rotate(450deg);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>CSS Transform</h1>
+
+    <div id="listenAudio" hidden>
+    </div>
+    <div class="formulary">
+
+        <div id="box" class="blink_me" style="color: rgb(13, 201, 13)">
+            <h3>Select any people to show more information...</h3>
+        </div>
+
+        <div class="has-dynamic-label">
+            <input type="text" name="name" id="frmName" value="" placeholder="Enter your name">
+            <div id="miFlecha" class="flecha">&#8592;</div>
+            <!-- <label class="has-dynamic-label" for="frmName">Enter your name</label> -->
+            <div id="msgName" style="color:red"></div>
+            
+        </div>
+
+        <br>
+
+        <div>
+            <label for="frmDateOfBirth">Date of birth</label>
+            <input type="date" name="dateOfBirth" id="frmDateOfBirth" value="" placeholder="Enter the day of birth">
+            <div id="msgDateOfBirth" style="color:red"></div>
+        </div>
+
+        <button onclick="addPerson()" id="submitButton">Submit</button>
+
+    </div>
+
+    <div>
+        <div style="border: 1px solid red; float: right; background: #ccff66; width: 49%;">
+            Create Backups
+            <button onclick="BackupNow()" id="submitButton">Backup Now!</button>
+            <button onclick="BackupClear()" id="submitButton">Clear all!</button>
+            <div id="listOfBackups">
+            </div>
+        </div>
+    </div>
+    <section>
+        <div>
+            <table id="tblNames" border="1px" style="border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date of Birth</th>
+                        <th>Age</th>
+                        <th>Zodiac Sign</th>
+                        <th colspan="3">Favorite Music</th>
+                        <th>Something interesting</th>
+                        <th>Remove</th>
+                        <th>Color</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Average Age
+                        </td>
+                        <td id="tdAverageAge">
+                            0
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>Salsa</td>
+                        <td>Regueton</td>
+                        <td>Rock</td>
+                        <td>Think about it...</td>
+                        <td>Remove this item</td>
+                        <td>Favorite Color</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div>JSON</div>
+        <div id="json" style="background:lavender; border:solid; border-color:lightblue ">jSon</div>
+    </section>
+
+    <br>
+
+    <script>
+        arrayOfPeople = [];
+        function writeMessageForControl(control, message) {
+            let nameOfControl = control.name;
+            let nameInPascal = nameOfControl.substr(0, 1).toUpperCase()
+                + nameOfControl.substr(1, nameOfControl.length);
+            let msgNameControl = "msg" + nameInPascal;
+            let msgControl = document.getElementById(msgNameControl);
+            if (msgControl == null) {
+                console.error("No control created (span): " + msgNameControl);
+            }
+            msgControl.innerHTML = message;
+            msgControl.className = "rotar10";
+            
+        }
+        function correctData(name, dateOfBirth) {
+            isCorrect = true;
+            document.getElementById("miFlecha").className = "flecha";
+            writeMessageForControl(name, "");
+            writeMessageForControl(dateOfBirth, "");
+            //console.log(dateOfBirth.value);
+            if (dateOfBirth.value == "") {
+                writeMessageForControl(dateOfBirth, "You need to insert the date of birth");
+                isCorrect = false;
+            }
+            if (name.value.length == 0) {
+                writeMessageForControl(name, "You need to insert the name");
+                document.getElementById("miFlecha").className = "flecha_fin";
+                isCorrect = false
+            }
+            if (name.value.length > 50) {
+                writeMessageForControl(name, "Wow, you have a very long name!");
+                isCorrect = false
+            }
+            return isCorrect;
+        }
+        function addPerson() {
+            let frmName = document.getElementById("frmName");
+            let frmDateOfBirth = document.getElementById("frmDateOfBirth");
+            if (correctData(frmName, frmDateOfBirth)) {
+                let person = new Person(frmName.value, new Date(frmDateOfBirth.value));
+                addPeopleToTable(person)
+                arrayOfPeople[arrayOfPeople.length] = person;
+                calculateAverageAge(person.age());
+                frmName.value = "";
+                frmDateOfBirth.value = "";
+                console.log("All the information is correct");
+                showJson();
+            }
+        }
+        function addRowToTable() {
+            let tblNames = document.getElementById("tblNames");
+            let rowNameAge = tblNames.insertRow(-1);
+            let cellName = rowNameAge.insertCell(0);
+            let cellAge = rowNameAge.insertCell(1);
+            let newName = document.createTextNode(frmName.value);
+            let newAge = document.createTextNode(frmDateOfBirth);
+            cellName.appendChild(newName);
+            cellAge.appendChild(newAge);
+        }
+        function calculateAverageAge(age) {
+            let trAverageAge = document.getElementById("tdAverageAge");
+            let actualAverage = trAverageAge.innerHTML;
+            let quantityOfRows = parseFloat(document.getElementById("tblNames").rows.length - 3);
+            let actualAge = parseInt(age);
+            let average = ((parseFloat(actualAverage) * parseFloat(quantityOfRows - 1)) + actualAge) / quantityOfRows;
+            trAverageAge.innerHTML = parseFloat(average);
+        }
+        /* Person object */
+        function Person(name, dateOfBirth) {
+            this.name = name;
+            this.dateOfBirth = dateOfBirth;
+            this.PersonId = "id" + Math.random().toString(16).slice(2);
+            this.age = function () {
+                // https://stackoverflow.com/questions/4060004/calculate-age-given-the-birth-date-in-the-format-yyyymmdd
+                let ageDifMs = Date.now() - dateOfBirth.getTime();
+                let ageDate = new Date(ageDifMs); // miliseconds from epoch
+                return Math.abs(ageDate.getUTCFullYear() - 1970);
+            };
+            this.zodiacSign = function () {
+                //https://coursesweb.net/javascript/zodiac-signs_cs
+                let day = dateOfBirth.getDate();
+                let month = dateOfBirth.getMonth() + 1;
+                let zodiac = ['', 'Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn'];
+                let last_day = ['', 19, 18, 20, 20, 21, 21, 22, 22, 21, 22, 21, 20, 19];
+                return (day > last_day[month]) ? zodiac[month * 1 + 1] : zodiac[month];
+            }
+        }
+        function CreateFivePeople() {
+            let person1 = new Person("Andrea", new Date("2015-03-04"));
+            let person2 = new Person("Esthefania", new Date("2000-09-17"));
+            let person3 = new Person("Omar", new Date("1952-05-29"));
+            let person4 = new Person("Freddy", new Date("2008-06-15"));
+            let person5 = new Person("Madeley", new Date("1984-07-27"));
+            arrayOfPeople[0] = person1;
+            arrayOfPeople[1] = person2;
+            arrayOfPeople[2] = person3;
+            arrayOfPeople[3] = person4;
+            arrayOfPeople[4] = person5;
+        }
+        function showPeopleAgeInBox(person) {
+            let message = document.getElementById("box");
+            message.style.color = "red";
+            message.innerHTML = person.name + " is " + person.age() + " years old!";
+        }
+        function showPeopleZodiacSignInBox(person) {
+            let message = document.getElementById("box");
+            message.style.color = "blue";
+            message.innerHTML = person.name + " is " + person.zodiacSign() + "!";
+            person.age();
+        }
+        function showJson() {
+            let jsonObject = JSON.stringify(arrayOfPeople);
+            document.getElementById("json").innerHTML = jsonObject;
+        }
+        function dancing(person, rithm) {
+            let message = document.getElementById("box");
+            message.style.color = "salmon";
+            message.innerHTML = person.name + " is dancing " + rithm + "!";
+            arrayOfPeople.forEach(p => {
+                if (person == p) {
+                    if (p.dance == undefined) {
+                        p.dance = [rithm];
+                    } else {
+                        p.dance[p.dance.length] = [rithm];
+                    }
+                }
+            });
+            if (rithm === "salsa") {
+                let htmlAudio = '<audio controls autoplay><source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/arsonist/hot_salsa_trip/arsonist_-_01_-_Hot_salsa_trip.mp3" type="audio/mp4"></audio>';
+                document.getElementById("listenAudio").innerHTML = htmlAudio;
+            }
+            if (rithm === "Regueton") {
+                let htmlAudio = '<audio controls autoplay><source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Bloque_del_Sur/Periferia/Bloque_del_Sur_-_03_-_03_megaperiferia.mp3" type="audio/mp4"></audio>';
+                document.getElementById("listenAudio").innerHTML = htmlAudio;
+            }
+            if (rithm === "Rock") {
+                let htmlAudio = '<audio controls autoplay><source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Ziklibrenbib/The_New_Monitors/st/The_New_Monitors_-_11_-_Last_Day_On_The_Job.mp3" type="audio/mp4"></audio>';
+                document.getElementById("listenAudio").innerHTML = htmlAudio;
+            }
+            showJson();
+        }
+        function addPeopleToTable(person, i) {
+            let tblNames = document.getElementById("tblNames");
+            let newRow = tblNames.insertRow(-1);
+            newRow.id = "row" + i;
+            let rowId = "row" + i;
+            let cellName = newRow.insertCell(0);
+            let newName = document.createTextNode(person.name);
+            cellName.appendChild(newName);
+            let cellDateOfBirth = newRow.insertCell(1);
+            let newDateOfBirth = document.createTextNode(person.dateOfBirth.toLocaleDateString());
+            cellDateOfBirth.appendChild(newDateOfBirth);
+            let cellAge = newRow.insertCell(2);
+            let buttonAge = document.createElement("input");
+            buttonAge.type = "button";
+            buttonAge.value = "Calc Age";
+            buttonAge.onclick = function () {
+                showPeopleAgeInBox(person);
+            };
+            cellAge.appendChild(buttonAge);
+            let cellZodiacSign = newRow.insertCell(3);
+            let buttonZodiacSign = document.createElement("input");
+            buttonZodiacSign.type = "button";
+            buttonZodiacSign.value = "Show Zodiac Sign";
+            buttonZodiacSign.onclick = function () {
+                showPeopleZodiacSignInBox(person);
+            };
+            cellZodiacSign.appendChild(buttonZodiacSign);
+            let cellSalsa = newRow.insertCell(4);
+            let buttonSalsa = document.createElement("input");
+            buttonSalsa.type = "button";
+            buttonSalsa.value = "Sabor!";
+            buttonSalsa.onclick = function () {
+                dancing(person, "salsa");
+            };
+            cellSalsa.appendChild(buttonSalsa);
+            let cellRegueton = newRow.insertCell(5);
+            let buttonRegueton = document.createElement("input");
+            buttonRegueton.type = "button";
+            buttonRegueton.value = "Perreo!";
+            buttonRegueton.onclick = function () {
+                dancing(person, "Regueton");
+            };
+            cellRegueton.appendChild(buttonRegueton);
+            let cellRock = newRow.insertCell(6);
+            let buttonRock = document.createElement("input");
+            buttonRock.type = "button";
+            buttonRock.value = "Mosh!";
+            buttonRock.onclick = function () {
+                dancing(person, "Rock");
+            };
+            cellRock.appendChild(buttonRock);
+            let cellWiki = newRow.insertCell(7);
+            let buttonWiki = document.createElement("input");
+            buttonWiki.type = "button";
+            buttonWiki.value = "WikiHow";
+            buttonWiki.id = "wiki" + i;
+            buttonWiki.onclick = function () {
+                CallAjaxForPerson(buttonWiki.id)
+            };
+            cellWiki.appendChild(buttonWiki);
+            let cellRemove = newRow.insertCell(8);
+            let buttonRemove = document.createElement("input");
+            buttonRemove.type = "button";
+            buttonRemove.value = "Remove";
+            buttonRemove.style = "background-color:red";
+            buttonRemove.id = "remove" + i;
+            buttonRemove.onclick = function () {
+                RemovePersonFromArray(person);
+                deleteRow(this)
+                console.log("remover", i);
+                console.log(person.PersonId);
+            };
+            cellRemove.appendChild(buttonRemove);
+            let cellColor = newRow.insertCell(9);
+            let ddlColor = document.createElement("input");
+            cellColor.appendChild(ddlColor);
+            let selectid = "colorId" + i;
+            cellColor.innerHTML = '<select id="' + selectid + '" onchange="changeRowColor(\'' + rowId + '\', this)"><option value="SALMON">SALMON</option>  <option value="GOLD">GOLD</option>  <option value="VIOLET">VIOLET</option>  <option value="YELLOWGREEN" selected>YELLOWGREEN</option>  <option value="LIGHTSKYBLUE" selected>LIGHTSKYBLUE</option></select>';
+        }
+        function changeRowColor(rowid, e) {
+            document.getElementById(rowid).style.backgroundColor = e.options[e.selectedIndex].value;
+            console.log(rowid);
+            console.log(e.options[e.selectedIndex].value);
+        }
+        function RemovePersonFromArray(person) {
+            arrayOfPeople.forEach(function (item, index, object) {
+                if (item === person) {
+                    object.splice(index, 1);
+                }
+            });
+            showJson();
+        }
+        function deleteRow(btn) {
+            var row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+        function ShowPeopleInTable() {
+            for (let i = 0; i < arrayOfPeople.length; i++) {
+                const person = arrayOfPeople[i];
+                addPeopleToTable(person, i);
+                calculateAverageAge(person.age());
+            }
+        }
+        function CallAjaxForPerson(id) {
+            var data = null;
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    let wiki = JSON.parse(this.responseText);
+                    document.getElementById(id).value = wiki["1"];
+                }
+            });
+            xhr.open("GET", "https://hargrimm-wikihow-v1.p.rapidapi.com/steps?count=1");
+            xhr.setRequestHeader("x-rapidapi-host", "hargrimm-wikihow-v1.p.rapidapi.com");
+            xhr.setRequestHeader("x-rapidapi-key", "fd116adb42mshd7dcfb4e9e863a6p139031jsnb1c4ed851fdd");
+            xhr.send(data);
+        }
+        function BackupNow() {
+            // Creates a counter of backup
+            if (localStorage.getItem("numOfBackup") == undefined) {
+                localStorage.setItem("numOfBackup", 1);
+            } else {
+                localStorage.setItem("numOfBackup", parseInt(localStorage.getItem("numOfBackup")) + 1);
+            }
+            let currentJsonObject = {}
+            currentJsonObject.backupNumber = localStorage.getItem("numOfBackup");
+            currentJsonObject.date = new Date();
+            currentJsonObject.json = JSON.stringify(arrayOfPeople);
+            let nameBackup = "backup_" + localStorage.getItem("numOfBackup");
+            let jsonForBackup = JSON.stringify(currentJsonObject);
+            localStorage.setItem(nameBackup, jsonForBackup);
+            let forRestore = localStorage.getItem(nameBackup);
+            let restoredBackup = JSON.parse(forRestore);
+            // Register all the backups in an arrayOfBackups
+            let arrayOfBackups = [];
+            if (localStorage.getItem("allBackups") != undefined) {
+                arrayOfBackups = JSON.parse(localStorage.getItem("allBackups"));
+            }
+            arrayOfBackups[arrayOfBackups.length] = currentJsonObject;
+            let arrayOfBackups_json = JSON.stringify(arrayOfBackups);
+            localStorage.setItem("allBackups", arrayOfBackups_json);
+            ShowBackup();
+        }
+        function ShowBackup() {
+            let allBackups = JSON.parse(localStorage.getItem("allBackups"));
+            console.log(allBackups);
+            let htmlListBackups = "<ul>"
+            allBackups.forEach(b => {
+                htmlListBackups += "<li>Number:" + b.backupNumber
+                    + " Date:" + new Date(b.date).toLocaleDateString()
+                    + " " + new Date(b.date).toLocaleTimeString() + "</li>";
+            });
+            document.getElementById("listOfBackups").innerHTML = htmlListBackups;
+            htmlListBackups = "</ul>"
+        }
+        function BackupClear() {
+            localStorage.removeItem("allBackups");
+            document.getElementById("listOfBackups").innerHTML = "";
+        }
+        function AddEventsToDocument() {
+            document.getElementById("frmName").addEventListener("focus", function () {
+                document.getElementById("frmName").style = "background-color:rgb(243, 209, 209)";
+            }, false);
+            document.getElementById("frmName").addEventListener("blur", function () {
+                document.getElementById("frmName").style = "background-color:white";
+            }, false);
+            document.getElementById("frmDateOfBirth").addEventListener("focus", function () {
+                document.getElementById("frmDateOfBirth").style = "background-color:rgb(243, 209, 209)";
+            }, false);
+            document.getElementById("frmDateOfBirth").addEventListener("blur", function () {
+                document.getElementById("frmDateOfBirth").style = "background-color:white";
+            }, false);
+
+            // document.getElementById("submitButton").addEventListener("mouseout", function (){
+            //     document.getElementById("miFlecha").className="flecha";
+            //     console.log("saliendo le bolto");
+            // })
+        }
+        CreateFivePeople();
+        ShowPeopleInTable();
+        showJson();
+        AddEventsToDocument();
+        // let currentRow = document.getElementById("row2");
+        // currentRow.style.backgroundColor = "blue"
+        // document.getElementById("rotar").onclick = function() {
+        //document.getElementById("rotar").classList.toggle("rotated");
+        // }
+        console.log();
+    </script>
+</body>
+
+</html>
