@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Project Form Generator</title>
+    <link
+      id="paginaEstilo"
+      rel="stylesheet"
+      type="text/css"
+      href="style1.css"
+    />
+    <style>
+      h1 {
+        color: #111;
+        font-family: "Open Sans Condensed", sans-serif;
+        font-size: 64px;
+        font-weight: 700;
+        line-height: 64px;
+        margin: 0 0 0;
+        padding: 20px 30px;
+        text-align: center;
+        text-transform: uppercase;
+        border-left: solid 8px dimgray;
+        border-right: solid 8px dimgray;
+      }
+
+      .container {
+        width: 98%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .instrucciones {
+        background-color: lightsteelblue;
+        width: 40%;
+        float: left;
+      }
+
+      .formulario {
+        background-color: rgb(250, 250, 250);
+        width: 60%;
+        float: left;
+      }
+
+      /*Estilos que se podrán tener*/
+      input[type="text"].estilo1,
+      input[type="number"].estilo1,
+      input[type="date"].estilo1 {
+        width: 100%;
+
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-family: sans-serif;
+        font-size: 105%;
+      }
+
+      button.estilo1 {
+        background-color: #0099ff;
+        width: 100%;
+        border-style: inherit;
+        padding: 10px;
+        color: white;
+        font-family: sans-serif;
+        font-size: 150%;
+      }
+
+      button.estilo1:hover {
+        background-color: darkblue;
+      }
+
+      #form {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+      }
+
+      h1,
+      .p1,
+      #form,
+      #savedData {
+        padding: 25px;
+        width: 50%;
+        margin-left: 25%;
+        margin-right: 25%;
+      }
+
+      /* Button Styles */
+
+      .buttonX {
+        display: inline-flex;
+        height: 40px;
+        width: 150px;
+        border: 2px solid #bfc0c0;
+        margin: 20px 20px 20px 20px;
+        color: #bfc0c0;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-size: 0.8em;
+        letter-spacing: 1.5px;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      a {
+        color: #bfc0c0;
+        text-decoration: none;
+        letter-spacing: 1px;
+      }
+
+      /* First Button */
+
+      #arrow-hover {
+        width: 15px;
+        height: 10px;
+        position: absolute;
+        transform: translateX(60px);
+        opacity: 0;
+        -webkit-transition: all 0.25s cubic-bezier(0.14, 0.59, 1, 1.01);
+        transition: all 0.15s cubic-bezier(0.14, 0.59, 1, 1.01);
+        margin: 0;
+        padding: 0 5px;
+      }
+
+      a#button-1:hover img {
+        width: 15px;
+        opacity: 1;
+        transform: translateX(50px);
+      }
+
+      /* Second Button */
+
+      #button-2 {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      #button-2 a {
+        position: relative;
+        transition: all 0.35s ease-Out;
+      }
+
+      #slide {
+        width: 100%;
+        height: 100%;
+        left: -200px;
+        background: #bfc0c0;
+        position: absolute;
+        transition: all 0.35s ease-Out;
+        bottom: 0;
+      }
+
+      #button-2:hover #slide {
+        left: 0;
+      }
+
+      #button-2:hover a {
+        color: #2d3142;
+      }
+
+      /* Third Button */
+
+      #button-3 {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      #button-3 a {
+        position: relative;
+        transition: all 0.45s ease-Out;
+      }
+
+      #circle {
+        width: 0%;
+        height: 0%;
+        opacity: 0;
+        line-height: 40px;
+        border-radius: 50%;
+        background: #bfc0c0;
+        position: absolute;
+        transition: all 0.5s ease-Out;
+        top: 20px;
+        left: 70px;
+      }
+
+      #button-3:hover #circle {
+        width: 200%;
+        height: 500%;
+        opacity: 1;
+        top: -70px;
+        left: -70px;
+      }
+
+      #button-3:hover a {
+        color: #2d3142;
+      }
+
+      /* Fourth Button */
+
+      #button-4 {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      #button-4 a {
+        position: relative;
+        transition: all 0.45s ease-Out;
+      }
+
+      #underline {
+        width: 100%;
+        height: 2.5px;
+        margin-top: 15px;
+        align-self: flex-end;
+        left: -200px;
+        background: #bfc0c0;
+        position: absolute;
+        transition: all 0.3s ease-Out;
+        bottom: 0;
+      }
+
+      #button-4:hover #underline {
+        left: 0;
+      }
+
+      /* Fifth Button */
+
+      #button-5 {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      #button-5 a {
+        position: relative;
+        transition: all 0.45s ease-Out;
+      }
+
+      #translate {
+        transform: rotate(50deg);
+        width: 100%;
+        height: 250%;
+        left: -200px;
+        top: -30px;
+        background: #bfc0c0;
+        position: absolute;
+        transition: all 0.3s ease-Out;
+      }
+
+      #button-5:hover #translate {
+        left: 0;
+      }
+
+      #button-5:hover a {
+        color: #2d3142;
+      }
+
+      /* Sixth Button */
+
+      #button-6 {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      #button-6 a {
+        position: relative;
+        transition: all 0.45s ease-Out;
+      }
+
+      #spin {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        left: 70px;
+        top: 20px;
+        transform: rotate(0deg);
+        background: none;
+        position: absolute;
+        transition: all 0.5s ease-Out;
+      }
+
+      #button-6:hover #spin {
+        width: 200%;
+        height: 500%;
+        opacity: 1;
+        left: -70px;
+        top: -70px;
+        background: #bfc0c0;
+        transform: rotate(80deg);
+      }
+
+      #button-6:hover a {
+        color: #2d3142;
+      }
+
+      /* Seventh Button */
+
+      #button-7 {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      #button-7 a {
+        position: relative;
+        left: 0;
+        transition: all 0.35s ease-Out;
+      }
+
+      #dub-arrow {
+        width: 100%;
+        height: 100%;
+        background: #bfc0c0;
+        left: -200px;
+        position: absolute;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.35s ease-Out;
+        bottom: 0;
+      }
+
+      #button-7 img {
+        width: 20px;
+        height: auto;
+      }
+
+      #button-7:hover #dub-arrow {
+        left: 0;
+      }
+
+      #button-7:hover a {
+        left: 150px;
+      }
+
+      @media screen and (min-width: 1000px) {
+        h1 {
+          font-size: 2.2em;
+        }
+        #container {
+          width: 50%;
+        }
+        .buttons {
+          background: #2d3142;
+          font-family: "Raleway", sans-serif;
+        }
+      }
+
+      .card-container {
+        height: 100%;
+        perspective: 600;
+        position: relative;
+        width: 100%;
+      }
+      .card {
+        height: 100%;
+        position: absolute;
+        transform-style: preserve-3d;
+        transition: all 1s ease-in-out;
+        width: 100%;
+      }
+      .card:hover {
+        transform: rotateY(180deg);
+      }
+      .card .side {
+        backface-visibility: hidden;
+        height: 100%;
+        position: absolute;
+        width: 100%;
+      }
+      .card .back {
+        transform: rotateY(180deg);
+      }
+
+      .panel-instrucciones {
+        background-color: coral;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Form generator</h1>
+
+    <div class="container">
+      <div class="instrucciones">
+        <div class="buttons">
+          <div class="buttonX" id="button-2" onclick="changeStyle(1)">
+            <div id="slide"></div>
+            <a href="#">Style 1</a>
+          </div>
+
+          <div class="buttonX" id="button-3" onclick="changeStyle(2)">
+            <div id="circle"></div>
+            <a href="#">Style 2</a>
+          </div>
+
+          <div class="buttonX" id="button-5" onclick="changeStyle(3)">
+            <div id="translate"></div>
+            <a href="#">Style 3</a>
+          </div>
+
+          <div class="buttonX" id="button-7" onclick="changeStyle(4)">
+            <div id="dub-arrow">
+              <img
+                src="https://github.com/atloomer/atloomer.github.io/blob/master/img/iconmonstr-arrow-48-240.png?raw=true"
+                alt=""
+              />
+            </div>
+            <a href="#">Style 4</a>
+          </div>
+        </div>
+
+        <div class="card-container">
+          <div class="card">
+            <div class="side">
+              <div class="panel-instrucciones">
+                <h3>Instructions</h3>
+                <p>
+                  This project is a form generator engine called "Form
+                  Generator".
+                </p>
+                <p>
+                  The basis of this project is to provide the user with a simple
+                  way to create forms that can simultaneously use different
+                  styles. To generate a style, many times different elements are
+                  required. For example, there is the element called BUTTON,
+                  which generates a button on the form however to be able to
+                  have a different design you could use CSS to make the changes.
+                  Many times, these changes in CSS fall short when performing
+                  the style that is required then other resources are used to
+                  generate the desired button, and instead of using BUTTON you
+                  could use nested DIVs as well as link elements A.
+                </p>
+                <p>
+                  Based on this, many times when a programmer or form designer
+                  needs to do a job, it is very complicated to generate the form
+                  because as stated before the design of the form is not only to
+                  use CSS but also many times to use more resources or more
+                  elements to be able to show the design that is needed, now if
+                  a programmer shows a job and the final result does not please
+                  the client, then he will need to change the design and
+                  sometimes he can spend a lot of time changing the design until
+                  it is pleasant to the client.
+                </p>
+                <p>
+                  It is here where the Form Generator comes into play, the basis
+                  of the project is the creation of an object (JSON) where a
+                  format will be used to create the form. This object will
+                  contain the specifications of the form, the different elements
+                  that will be needed, the types of elements (text boxes, date
+                  or numeric) as well as more specific elements such as the
+                  minimum date and the maximum date for data entry. Based on
+                  this object the Form Builder uses that base and then draws the
+                  desired form.
+                </p>
+                <p>
+                  For the demonstration of this functionality, you must click on
+                  the different buttons at the top and you can see how
+                  dynamically the form on the right changes style, in some
+                  styles it uses labels in others it omits them, to be striking
+                  it uses SPAN and in other styles he omits them. From these
+                  details the programmer should not worry because the Form
+                  Generator would do the hard work.
+                </p>
+                <p>
+                  The best thing about this project is that it could be
+                  extensible to any number of designs and it only requires
+                  adding the design to the engine and then it would be ready to
+                  be used by the programmer, it could even be used in a final
+                  project in such a way that The end user could change the
+                  design independently.
+                </p>
+              </div>
+            </div>
+            <div class="side back">
+                <h2>JSON object for the form</h2>
+              <div id="jsonContainer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formulario">
+        <div id="main"></div>
+      </div>
+    </div>
+
+    <script>
+      /*Aquí se debe generar todo el motor de creación de los formularios*/
+      /*A partir del div#main se genera todo el formulario*/
+
+      const INPUT_TYPES = {
+        TEXT: "text",
+        DATE: "date",
+        NUMBER: "number",
+        BUTTON: "button"
+      };
+
+      const FORM_STYLES = {
+        NONE: "",
+        STYLE1: "estilo1",
+        STYLE2: "estilo2",
+        STYLE3: "estilo3",
+        STYLE4: "estilo4"
+      };
+
+      let maestro = {
+        formName: "Datos del estudiante",
+        style: FORM_STYLES.STYLE1,
+        //style: FORM_STYLES.NONE,
+        //style: FORM_STYLES.STYLE2,
+        //style: FORM_STYLES.STYLE3,
+        //style: FORM_STYLES.STYLE4,
+        inputs: [
+          {
+            name: "Name",
+            label: "First Name",
+            placeholder: "Enter your name",
+            type: INPUT_TYPES.TEXT,
+            errores: [
+              {
+                isEmptyError: "You must enter a data"
+              }
+            ]
+          },
+          {
+            name: "LastName",
+            label: "Last Name",
+            placeholder: "Enter your last name",
+            type: INPUT_TYPES.TEXT,
+            errores: [
+              {
+                isEmptyError: "You must enter a data"
+              }
+            ]
+          },
+          {
+            name: "Age",
+            label: "How old are you?",
+            type: INPUT_TYPES.NUMBER,
+            placeholder: "Enter from 0 to 100 years",
+            min: 0,
+            max: 100,
+            errores: [
+              {
+                isEmptyError: "You must enter a data"
+              }
+            ]
+          },
+          {
+            name: "flightDate",
+            label: "Flight Date",
+            type: "date",
+            min: "2019-12-15",
+            max: "2019-12-25",
+            errores: [
+              {
+                isEmptyError: "You must enter a data"
+              }
+            ]
+          },
+          {
+            name: "Enviar",
+            label: "Submit my flight!",
+            type: INPUT_TYPES.BUTTON,
+            errores: [
+              {
+                isEmptyError: "You must enter a data"
+              }
+            ]
+          }
+        ]
+      };
+
+      let divMain = document.getElementById("main");
+      divMain.innerHTML = formGenerator();
+
+      function formGenerator() {
+        //Style of the page
+        switch (maestro.style) {
+          case FORM_STYLES.STYLE1:
+            document
+              .getElementById("paginaEstilo")
+              .setAttribute("href", "style1.css");
+            break;
+          case FORM_STYLES.STYLE2:
+            document
+              .getElementById("paginaEstilo")
+              .setAttribute("href", "style2.css");
+            break;
+          case FORM_STYLES.STYLE3:
+            document
+              .getElementById("paginaEstilo")
+              .setAttribute("href", "style3.css");
+            break;
+          case FORM_STYLES.STYLE4:
+            document
+              .getElementById("paginaEstilo")
+              .setAttribute("href", "style4.css");
+            break;
+          default:
+        }
+
+        let html = "";
+        html = '<div id="form">'; // Inicio del formulario
+        html += htmlGenH1();
+        html += htmlGenInput();
+        html += "</div>"; // Fin del formulario
+        return html;
+      }
+
+      function htmlGenH1() {
+        let html = "";
+        let subtitulo = "";
+        if (maestro.formName != null) {
+          subtitulo = maestro.formName;
+        }
+        switch (maestro.style) {
+          case FORM_STYLES.STYLE1:
+            html = "<h2>" + subtitulo + "</h2>";
+            break;
+          case FORM_STYLES.STYLE2:
+            html +=
+              '<span class="login100-form-title">' + subtitulo + "</span>";
+            break;
+          case FORM_STYLES.STYLE3:
+            html +=
+              '<span class="login100-form-title p-b-53">' +
+              subtitulo +
+              "</span>";
+            break;
+          case FORM_STYLES.STYLE4:
+            html +=
+              '<span class="login100-form-title p-b-26">' +
+              subtitulo +
+              "</span>";
+            break;
+          default:
+            html += "<h2>Revisar título</h2>";
+        }
+        return html;
+      }
+
+      function htmlGenInput() {
+        let html = "";
+        let inputs = maestro.inputs;
+        inputs.forEach(i => {
+          let id = "";
+          let name = "";
+          let type = "";
+          let min = "";
+          let max = "";
+          let style = "";
+          let placeholder = "";
+          if (i.name != null) {
+            id = ' id="' + i.name + 'Id"';
+            name = ' name="' + i.name + '"';
+          }
+          if (i.type != null) {
+            type = ' type="' + i.type + '"';
+          }
+          if (i.min != null) {
+            min = ' min="' + i.min + '"';
+          }
+          if (i.max != null) {
+            max = ' max="' + i.max + '"';
+          }
+          if (i.placeholder != null) {
+            placeholder = ' placeholder="' + i.placeholder + '"';
+            if (maestro.style == FORM_STYLES.STYLE4) {
+              placeholder = i.placeholder;
+            }
+          }
+          if (i.style != null) {
+            style = ' class="' + i.style + '"';
+          }
+          if (maestro.style != null) {
+            style = ' class="' + maestro.style + '"';
+          }
+          if (i.type == INPUT_TYPES.BUTTON) {
+            let boton = "";
+            boton = '<button id="button">Enter</button>';
+            switch (maestro.style) {
+              case FORM_STYLES.STYLE1:
+                html +=
+                  "<" +
+                  i.type +
+                  " " +
+                  style +
+                  id +
+                  name +
+                  type +
+                  min +
+                  max +
+                  placeholder +
+                  ">" +
+                  i.label +
+                  "</" +
+                  i.type +
+                  ">";
+                break;
+              case FORM_STYLES.STYLE2:
+                html +=
+                  '<div class="container-login100-form-btn"><button class="login100-form-btn">' +
+                  i.label +
+                  "</button></div>";
+                break;
+              case FORM_STYLES.STYLE3:
+                html +=
+                  '<div class="container-login100-form-btn m-t-17"><button class="login100-form-btn">' +
+                  i.label +
+                  "</button></div>";
+                break;
+              case FORM_STYLES.STYLE4:
+                html +=
+                  '<div class="container-login100-form-btn"><div class="wrap-login100-form-btn"><div class="login100-form-bgbtn"></div><button class="login100-form-btn">' +
+                  i.label +
+                  "</button></div></div>";
+                break;
+
+              default:
+                html += "<div>";
+            }
+          } else {
+            switch (maestro.style) {
+              case FORM_STYLES.STYLE1:
+                html += "<div>";
+                html += "   <label " + style + " >" + i.label + "</label>";
+                html +=
+                  "   <input " +
+                  style +
+                  id +
+                  name +
+                  type +
+                  min +
+                  max +
+                  placeholder +
+                  ">";
+                html += "</div>";
+                break;
+
+              case FORM_STYLES.STYLE2:
+                let icon = "";
+                if (i.type == INPUT_TYPES.TEXT) {
+                  icon = "fa-pencil-square-o";
+                }
+                if (i.type == INPUT_TYPES.DATE) {
+                  icon = "fa-calendar";
+                }
+                if (i.type == INPUT_TYPES.NUMBER) {
+                  icon = "fa-calculator";
+                }
+                html += '<div class="wrap-input100">';
+                html +=
+                  '   <input class="input100" ' +
+                  id +
+                  name +
+                  type +
+                  min +
+                  max +
+                  placeholder +
+                  ">";
+                html += '   <span class="focus-input100"></span>';
+                html +=
+                  '   <span class="symbol-input100"><i class="fa ' +
+                  icon +
+                  '" aria-hidden="true"></i></span>';
+                html += "</div>";
+                break;
+
+              case FORM_STYLES.STYLE3:
+                html +=
+                  '<div class="p-t-31 p-b-9"><span class="txt1">' +
+                  i.label +
+                  "</span></div>";
+                html += '<div class="wrap-input100">';
+                html +=
+                  '<input class="input100" ' +
+                  id +
+                  name +
+                  type +
+                  min +
+                  max +
+                  placeholder +
+                  ">";
+                html += '<span class="focus-input100"></span>';
+                html += "</div>";
+                break;
+
+              case FORM_STYLES.STYLE4:
+                html += '<div class="wrap-input100">';
+                html +=
+                  '<input class="input100" ' +
+                  id +
+                  name +
+                  type +
+                  min +
+                  max +
+                  ">";
+                html +=
+                  '<span class="focus-input100" data-placeholder="' +
+                  placeholder +
+                  '"></span>';
+                html += "</div>";
+                break;
+
+              default:
+                html += "<div>";
+            }
+          }
+        });
+        return html;
+      }
+
+      function checkMasterObject() {
+        let possibleAttributes = {};
+        possibleAttributes["nombreFormulario"] = true;
+        possibleAttributes["inputs"] = true;
+        for (const property in maestro) {
+          if (property in possibleAttributes) {
+            console.log("imputos!!");
+          } else {
+            console.log("esto no debería estar", property);
+            console.error(
+              "The property " + property + " is nor part of the implementation!"
+            );
+          }
+          console.log(property, typeof property, maestro[property]);
+        }
+      }
+
+      function changeStyle(styleNumber) {
+        console.log(styleNumber);
+        console.log(maestro.style);
+        if (styleNumber === 1) {
+          maestro.style = FORM_STYLES.STYLE1;
+        }
+        if (styleNumber === 2) {
+          maestro.style = FORM_STYLES.STYLE2;
+        }
+        if (styleNumber === 3) {
+          maestro.style = FORM_STYLES.STYLE3;
+        }
+        if (styleNumber === 4) {
+          maestro.style = FORM_STYLES.STYLE4;
+        }
+        console.log(maestro.style);
+        divMain.innerHTML = formGenerator();
+      }
+
+      document.getElementById("jsonContainer").innerHTML = JSON.stringify(
+        maestro
+      );
+    </script>
+  </body>
+</html>
